@@ -15,17 +15,19 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ru.education.technologiesEducation.dto.AuthenticationRequestUserDto;
 import ru.education.technologiesEducation.exceptions.UserNotFoundException;
-import ru.education.technologiesEducation.model.User;
+import ru.education.technologiesEducation.model.Customer;
 import ru.education.technologiesEducation.services.UserService;
+import ru.education.technologiesEducation.staticValues.URLNames;
 import ru.education.technologiesEducation.validators.UserValidator;
 
 @RestController
-@RequestMapping(value = "/api/v1/auth/")
+@RequestMapping(value = URLNames.AUTHENTICATION_REQUEST_MAPPING_URL)
 public class AuthenticationRestControllerV1 {
     private final AuthenticationManager authenticationManager;
 
     private final UserService userService;
 
+    @Autowired
     private final UserValidator validator;
 
     @InitBinder
@@ -44,8 +46,8 @@ public class AuthenticationRestControllerV1 {
     public ResponseEntity login(@RequestBody AuthenticationRequestUserDto requestDto) {
         try {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(requestDto.getUsername(), requestDto.getPassword()));
-            User user = userService.findByUsername(requestDto.getUsername());
-            if (user == null) {
+            Customer customer = userService.findByUsername(requestDto.getUsername());
+            if (customer == null) {
                 throw new UserNotFoundException("User with username: " + requestDto.getUsername() + " not found");
             }
             return ResponseEntity.ok("Ok");

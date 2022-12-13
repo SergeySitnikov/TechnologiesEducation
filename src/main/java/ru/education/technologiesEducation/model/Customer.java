@@ -16,14 +16,13 @@ import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
 
 import java.util.Set;
-import java.util.concurrent.atomic.AtomicLong;
 
 @Entity
-@Table(name = "user")
-public class User {
+@Table(name = "customer")
+public class Customer {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "username")
@@ -39,12 +38,12 @@ public class User {
     @Transient
     private String confirmPassword;
     @ManyToMany
-    @JoinTable(name = "user_roles",
-            joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")},
+    @JoinTable(name = "customer_roles",
+            joinColumns = {@JoinColumn(name = "customer_id", referencedColumnName = "id")},
             inverseJoinColumns = {@JoinColumn(name = "role_id", referencedColumnName = "id")})
     private Set<Role> roles;
 
-    private final AtomicLong requestCount = new AtomicLong();
+//    private final AtomicLong requestCount = new AtomicLong();
 
     public long getId() {
         return id;
@@ -94,11 +93,11 @@ public class User {
         this.status = status;
     }
 
-    public long getRequestCount() {
-        return requestCount.get();
-    }
-
-    public void increaseRequestCount() {
-        requestCount.incrementAndGet();
-    }
+//    public long getRequestCount() {
+//        return requestCount.get();
+//    }
+//
+//    public void increaseRequestCount() {
+//        requestCount.incrementAndGet();
+//    }
 }

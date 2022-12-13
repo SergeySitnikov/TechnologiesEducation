@@ -1,7 +1,5 @@
 package ru.education.technologiesEducation.dto;
 
-import ru.education.technologiesEducation.model.User;
-
 public class AuthenticationRequestUserDto {
     private String username;
     private String password;
@@ -25,5 +23,13 @@ public class AuthenticationRequestUserDto {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getConfirmPassword() {
+        return confirmPassword;
+    }
+
+    public void setConfirmPassword(String confirmPassword) {
+        this.confirmPassword = confirmPassword;
     }
 }

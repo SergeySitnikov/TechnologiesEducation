@@ -13,13 +13,13 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import ru.education.technologiesEducation.staticValues.EntityFieldName;
+import ru.education.technologiesEducation.staticValues.URLNames;
 
 @EnableWebSecurity
 @EnableMethodSecurity
 @Configuration
 public class SecurityConfig {
-    public static final String SIGN_UP_URL = "/api/v1/auth/registration";
-    public static final String SIGN_IN_URL = "/api/v1/auth/login";
 
     @Bean
     public AuthenticationManager authenticationManager(HttpSecurity http, UserDetailsService userDetailsService, BCryptPasswordEncoder passwordEncoder) throws Exception {
@@ -34,8 +34,9 @@ public class SecurityConfig {
                 .csrf().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .authorizeHttpRequests()
-                .requestMatchers(SIGN_UP_URL).permitAll()
-                .requestMatchers(SIGN_IN_URL).permitAll()
+                .requestMatchers(URLNames.SIGN_UP_URL).permitAll()
+                .requestMatchers(URLNames.SIGN_IN_URL).permitAll()
+                .requestMatchers(URLNames.ADMIN_PANEL_URL).hasRole(EntityFieldName.ADMIN_ROLE_NAME)
                 .anyRequest().authenticated();
         return http.build();
 

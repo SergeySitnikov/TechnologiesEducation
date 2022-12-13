@@ -8,7 +8,7 @@ import ru.education.technologiesEducation.dao.UserRepository;
 import ru.education.technologiesEducation.dto.AuthenticationRequestUserDto;
 import ru.education.technologiesEducation.model.Role;
 import ru.education.technologiesEducation.model.Status;
-import ru.education.technologiesEducation.model.User;
+import ru.education.technologiesEducation.model.Customer;
 import ru.education.technologiesEducation.services.UserService;
 
 import java.util.HashSet;
@@ -31,18 +31,18 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void save(AuthenticationRequestUserDto userDto) {
-        User user = new User();
-        user.setUsername(userDto.getUsername());
-        user.setPassword(bCryptPasswordEncoder.encode(userDto.getPassword()));
+        Customer customer = new Customer();
+        customer.setUsername(userDto.getUsername());
+        customer.setPassword(bCryptPasswordEncoder.encode(userDto.getPassword()));
         Set<Role> roles = new HashSet<>();
-        roles.add(roleRepository.getReferenceById(1L));
-        user.setRoles(roles);
-        user.setStatus(Status.ACTIVE);
-        userRepository.save(user);
+        roles.add(roleRepository.getReferenceById(2L));
+        customer.setRoles(roles);
+        customer.setStatus(Status.ACTIVE);
+        userRepository.save(customer);
     }
 
     @Override
-    public User findByUsername(String username) {
+    public Customer findByUsername(String username) {
         return userRepository.findByUsername(username);
     }
 }

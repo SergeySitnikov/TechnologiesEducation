@@ -4,7 +4,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
-import ru.education.technologiesEducation.model.User;
+import ru.education.technologiesEducation.dto.AuthenticationRequestUserDto;
+import ru.education.technologiesEducation.model.Customer;
 import ru.education.technologiesEducation.services.UserService;
 
 @Component
@@ -18,30 +19,30 @@ public class UserValidator implements Validator {
 
     @Override
     public boolean supports(Class<?> clazz) {
-        return User.class.equals(clazz);
+        return AuthenticationRequestUserDto.class.equals(clazz);
     }
 
     @Override
     public void validate(Object target, Errors errors) {
-        User user = (User)target;
+        AuthenticationRequestUserDto customer = (AuthenticationRequestUserDto)target;
 
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "username", "Required");
 
-        if (user.getUsername().length() < 8 || user.getUsername().length() > 32) {
+        if (customer.getUsername().length() < 8 || customer.getUsername().length() > 32) {
             errors.rejectValue("username", "Size.userForm.username");
         }
 
-        if (userService.findByUsername(user.getUsername()) != null) {
+        if (userService.findByUsername(customer.getUsername()) != null) {
             errors.rejectValue("username", "Duplicate.userForm.username");
         }
 
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "password", "Required");
 
-        if (user.getPassword().length() < 8 || user.getPassword().length() > 32) {
+        if (customer.getPassword().length() < 8 || customer.getPassword().length() > 32) {
             errors.rejectValue("password", "Size.userForm.password");
         }
 
-        if (!user.getConfirmPassword().equals(user.getPassword())) {
+        if (!customer.getConfirmPassword().equals(customer.getPassword())) {
             errors.rejectValue("password", "Different.userForm.password");
         }
     }

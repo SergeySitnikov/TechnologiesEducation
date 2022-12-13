@@ -22,7 +22,7 @@ public class Role {
     private String name;
 
     @ManyToMany(mappedBy = "roles", fetch = FetchType.LAZY)
-    private Set<User> roles;
+    private Set<Customer> roles;
 
     public Role() {
     }
@@ -43,11 +43,11 @@ public class Role {
         this.name = name;
     }
 
-    public Set<User> getRoles() {
+    public Set<Customer> getRoles() {
         return roles;
     }
 
-    public void setRoles(Set<User> roles) {
+    public void setRoles(Set<Customer> roles) {
         this.roles = roles;
     }
 }
