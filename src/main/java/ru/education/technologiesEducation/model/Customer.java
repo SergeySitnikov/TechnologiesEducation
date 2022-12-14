@@ -12,9 +12,11 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
 
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -43,7 +45,9 @@ public class Customer {
             inverseJoinColumns = {@JoinColumn(name = "role_id", referencedColumnName = "id")})
     private Set<Role> roles;
 
-//    private final AtomicLong requestCount = new AtomicLong();
+
+    @OneToMany(mappedBy = "customer")
+    private List<UserStatisticRecord> userStatisticRecords;
 
     public long getId() {
         return id;

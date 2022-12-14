@@ -14,7 +14,7 @@ import ru.education.technologiesEducation.model.Customer;
 
 import java.util.HashSet;
 import java.util.Set;
-@Service("userService")
+@Service
 public class UserDetailsServiceImpl implements UserDetailsService {
 
     private final UserRepository userRepository;

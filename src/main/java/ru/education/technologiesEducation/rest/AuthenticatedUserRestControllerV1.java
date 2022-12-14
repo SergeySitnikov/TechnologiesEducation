@@ -18,23 +18,6 @@ public class AuthenticatedUserRestControllerV1 {
         return getUser(username);
     }
 
-    @PostMapping
-    public List<String> addUser(@RequestBody Map<String, String> userData) {
-        return getUserNames();
-    }
-
-    @PutMapping({"{username}"})
-    public Customer updateUser(@PathVariable String username, @RequestBody Map<String, String> userData) {
-        Customer customer = getUser(username);
-        customer.setUsername(userData.getOrDefault(EntityFieldName.USERNAME, username));
-        return customer;
-    }
-
-    @DeleteMapping({"{username}"})
-    public void deleteUser(@PathVariable String username) {
-        getUser(username);
-    }
-
     private List<String> getUserNames() {
 
         return Collections.emptyList();
