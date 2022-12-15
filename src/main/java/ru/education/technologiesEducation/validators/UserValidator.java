@@ -5,7 +5,6 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 import ru.education.technologiesEducation.dto.AuthenticationRequestUserDto;
-import ru.education.technologiesEducation.model.Customer;
 import ru.education.technologiesEducation.services.UserService;
 
 @Component
@@ -32,7 +31,7 @@ public class UserValidator implements Validator {
             errors.rejectValue("username", "Size.userForm.username");
         }
 
-        if (userService.findByUsername(customer.getUsername()) != null) {
+        if (userService.getByUsername(customer.getUsername()) != null) {
             errors.rejectValue("username", "Duplicate.userForm.username");
         }
 
@@ -40,10 +39,6 @@ public class UserValidator implements Validator {
 
         if (customer.getPassword().length() < 8 || customer.getPassword().length() > 32) {
             errors.rejectValue("password", "Size.userForm.password");
-        }
-
-        if (!customer.getConfirmPassword().equals(customer.getPassword())) {
-            errors.rejectValue("password", "Different.userForm.password");
         }
     }
 }

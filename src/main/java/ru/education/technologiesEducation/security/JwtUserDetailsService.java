@@ -1,4 +1,4 @@
-package ru.education.technologiesEducation.services.impl;
+package ru.education.technologiesEducation.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
@@ -11,27 +11,28 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.education.technologiesEducation.dao.UserRepository;
 import ru.education.technologiesEducation.model.Role;
 import ru.education.technologiesEducation.model.Customer;
+import ru.education.technologiesEducation.security.jwt.JwtUser;
+import ru.education.technologiesEducation.security.jwt.JwtUserFactory;
 
 import java.util.HashSet;
 import java.util.Set;
 @Service
-public class UserDetailsServiceImpl implements UserDetailsService {
+public class JwtUserDetailsService implements UserDetailsService {
 
     private final UserRepository userRepository;
 
     @Autowired
-    public UserDetailsServiceImpl(UserRepository userRepository) {
+    public JwtUserDetailsService(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 
     @Override
     @Transactional(readOnly = true)
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(String username) {
         Customer customer = userRepository.findByUsername(username);
-        Set<GrantedAuthority> grantedAuthorities = new HashSet<>();
-        for (Role role : customer.getRoles()) {
-            grantedAuthorities.add(new SimpleGrantedAuthority(role.getName()));
+        if (customer == null) {
+            throw new UsernameNotFoundException("User with username: " + username + " not found");
         }
-        return new org.springframework.security.core.userdetails.User(customer.getUsername(), customer.getPassword(), grantedAuthorities);
+        return JwtUserFactory.create(customer);
     }
 }

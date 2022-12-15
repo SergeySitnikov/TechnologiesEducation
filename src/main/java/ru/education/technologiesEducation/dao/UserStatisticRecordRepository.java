@@ -5,7 +5,7 @@ import ru.education.technologiesEducation.model.UserStatisticRecord;
 
 import java.util.List;
 
-public interface UserStatisticRecordRepository extends JpaRepository<Long, UserStatisticRecord> {
+public interface UserStatisticRecordRepository extends JpaRepository<UserStatisticRecord, Long> {
     UserStatisticRecord findByRecordName(String recordName);
     List<UserStatisticRecord> findAllByCustomerId(Long customerId);
 }

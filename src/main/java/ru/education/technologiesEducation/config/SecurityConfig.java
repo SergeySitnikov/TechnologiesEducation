@@ -1,7 +1,6 @@
 package ru.education.technologiesEducation.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -13,6 +12,8 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import ru.education.technologiesEducation.security.jwt.JwtConfigurer;
+import ru.education.technologiesEducation.security.jwt.JwtTokenProvider;
 import ru.education.technologiesEducation.staticValues.EntityFieldName;
 import ru.education.technologiesEducation.staticValues.URLNames;
 
@@ -21,6 +22,13 @@ import ru.education.technologiesEducation.staticValues.URLNames;
 @Configuration
 public class SecurityConfig {
 
+    private final JwtTokenProvider jwtTokenProvider;
+
+    @Autowired
+    public SecurityConfig(JwtTokenProvider jwtTokenProvider) {
+        this.jwtTokenProvider = jwtTokenProvider;
+    }
+
     @Bean
     public AuthenticationManager authenticationManager(HttpSecurity http, UserDetailsService userDetailsService, BCryptPasswordEncoder passwordEncoder) throws Exception {
         AuthenticationManagerBuilder authenticationManagerBuilder = http.getSharedObject(AuthenticationManagerBuilder.class);
@@ -28,7 +36,7 @@ public class SecurityConfig {
         return authenticationManagerBuilder.build();
     }
     @Bean
-    public SecurityFilterChain configure(HttpSecurity http) throws Exception {
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .httpBasic().disable()
                 .csrf().disable()
@@ -37,7 +45,9 @@ public class SecurityConfig {
                 .requestMatchers(URLNames.SIGN_UP_URL).permitAll()
                 .requestMatchers(URLNames.SIGN_IN_URL).permitAll()
                 .requestMatchers(URLNames.ADMIN_PANEL_URL).hasRole(EntityFieldName.ADMIN_ROLE_NAME)
-                .anyRequest().authenticated();
+                .anyRequest().authenticated()
+                .and()
+                .apply(new JwtConfigurer(jwtTokenProvider));
         return http.build();
 
     }

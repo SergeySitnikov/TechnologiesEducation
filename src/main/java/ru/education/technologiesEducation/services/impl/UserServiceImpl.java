@@ -15,6 +15,7 @@ import ru.education.technologiesEducation.model.Customer;
 import ru.education.technologiesEducation.model.UserStatisticRecord;
 import ru.education.technologiesEducation.services.UserService;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -42,7 +43,7 @@ public class UserServiceImpl implements UserService {
         Customer customer = new Customer();
         customer.setUsername(userDto.getUsername());
         customer.setPassword(bCryptPasswordEncoder.encode(userDto.getPassword()));
-        Set<Role> roles = new HashSet<>();
+        List<Role> roles = new ArrayList<>();
         roles.add(roleRepository.getReferenceById(2L));
         customer.setRoles(roles);
         customer.setStatus(Status.ACTIVE);
@@ -50,7 +51,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Customer findByUsername(String username) {
+    public Customer getByUsername(String username) {
         return userRepository.findByUsername(username);
     }
 
@@ -61,7 +62,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Customer getUserByAuthentication(Authentication authentication) {
-        return this.findByUsername(((UserDetails)(authentication.getPrincipal())).getUsername());
+        return this.getByUsername(((UserDetails)(authentication.getPrincipal())).getUsername());
     }
 
     @Override
@@ -69,5 +70,8 @@ public class UserServiceImpl implements UserService {
         return statisticRecordRepository.findAllByCustomerId(this.getUserByAuthentication(authentication).getId());
     }
 
-
+    @Override
+    public void delete(Long id) {
+        userRepository.delete(this.getUserById(id));
+    }
 }

@@ -4,8 +4,6 @@ public class AuthenticationRequestUserDto {
     private String username;
     private String password;
 
-    private String confirmPassword;
-
     public AuthenticationRequestUserDto() {
     }
 
@@ -23,13 +21,5 @@ public class AuthenticationRequestUserDto {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public String getConfirmPassword() {
-        return confirmPassword;
-    }
-
-    public void setConfirmPassword(String confirmPassword) {
-        this.confirmPassword = confirmPassword;
     }
 }

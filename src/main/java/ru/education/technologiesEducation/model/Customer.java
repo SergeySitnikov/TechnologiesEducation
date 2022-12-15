@@ -1,20 +1,7 @@
 package ru.education.technologiesEducation.model;
 
 
-
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
-import jakarta.persistence.Transient;
+import jakarta.persistence.*;
 
 import java.util.List;
 import java.util.Set;
@@ -43,7 +30,7 @@ public class Customer {
     @JoinTable(name = "customer_roles",
             joinColumns = {@JoinColumn(name = "customer_id", referencedColumnName = "id")},
             inverseJoinColumns = {@JoinColumn(name = "role_id", referencedColumnName = "id")})
-    private Set<Role> roles;
+    private List<Role> roles;
 
 
     @OneToMany(mappedBy = "customer")
@@ -69,11 +56,11 @@ public class Customer {
         this.password = password;
     }
 
-    public Set<Role> getRoles() {
+    public List<Role> getRoles() {
         return roles;
     }
 
-    public void setRoles(Set<Role> roles) {
+    public void setRoles(List<Role> roles) {
         this.roles = roles;
     }
 
@@ -97,11 +84,4 @@ public class Customer {
         this.status = status;
     }
 
-//    public long getRequestCount() {
-//        return requestCount.get();
-//    }
-//
-//    public void increaseRequestCount() {
-//        requestCount.incrementAndGet();
-//    }
 }

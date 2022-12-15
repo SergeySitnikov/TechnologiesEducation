@@ -11,11 +11,13 @@ public interface UserService {
 
     void save(AuthenticationRequestUserDto user);
 
-    Customer findByUsername(String username);
+    Customer getByUsername(String username);
 
     Customer getUserById(Long id);
 
     Customer getUserByAuthentication(Authentication authentication);
 
     List<UserStatisticRecord> getAllStatisticRecords(Authentication authentication);
+
+    void delete(Long id);
 }
