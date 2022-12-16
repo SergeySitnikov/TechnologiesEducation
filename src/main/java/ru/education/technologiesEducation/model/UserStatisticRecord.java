@@ -9,6 +9,9 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import org.springframework.data.annotation.CreatedDate;
+
+import java.util.Date;
 
 @Entity
 @Table(name = "userStatisticRecord")
@@ -27,6 +30,14 @@ public class UserStatisticRecord {
 
     @Column(name = "number")
     private Long number;
+
+
+    @Column(name = "description")
+    private String description;
+
+    @CreatedDate
+    @Column(name = "creationDate")
+    private Date creationDate;
 
     public UserStatisticRecord() {
     }
@@ -61,5 +72,21 @@ public class UserStatisticRecord {
 
     public void setNumber(Long number) {
         this.number = number;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public Date getCreationDate() {
+        return creationDate;
+    }
+
+    public void setCreationDate(Date creationDate) {
+        this.creationDate = creationDate;
     }
 }

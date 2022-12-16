@@ -66,8 +66,18 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<UserStatisticRecord> getAllStatisticRecords(Authentication authentication) {
-        return statisticRecordRepository.findAllByCustomerId(this.getUserByAuthentication(authentication).getId());
+    public List<Customer> getAllUsers() {
+        return userRepository.findAll();
+    }
+
+    @Override
+    public List<UserStatisticRecord> getAllStatisticRecords(Long customerId) {
+        return statisticRecordRepository.findAllByCustomerId(customerId);
+    }
+
+    @Override
+    public UserStatisticRecord getStatisticRecord(String name, Long customerId) {
+        return statisticRecordRepository.findByRecordNameAndCustomerId(name, customerId);
     }
 
     @Override

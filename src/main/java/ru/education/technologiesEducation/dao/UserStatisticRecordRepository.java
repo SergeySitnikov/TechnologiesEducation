@@ -8,4 +8,8 @@ import java.util.List;
 public interface UserStatisticRecordRepository extends JpaRepository<UserStatisticRecord, Long> {
     UserStatisticRecord findByRecordName(String recordName);
     List<UserStatisticRecord> findAllByCustomerId(Long customerId);
+
+    UserStatisticRecord findByRecordNameAndCustomerId(String recordName, Long customerId);
+
+    void deleteByRecordNameAndCustomerId(String recordName, Long customerId);
 }
