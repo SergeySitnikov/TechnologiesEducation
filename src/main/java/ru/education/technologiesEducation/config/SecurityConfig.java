@@ -14,7 +14,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import ru.education.technologiesEducation.security.jwt.JwtConfigurer;
 import ru.education.technologiesEducation.security.jwt.JwtTokenProvider;
-import ru.education.technologiesEducation.staticValues.EntityFieldName;
 import ru.education.technologiesEducation.staticValues.URLNames;
 
 @EnableWebSecurity
@@ -44,7 +43,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests()
                 .requestMatchers(URLNames.SIGN_UP_URL).permitAll()
                 .requestMatchers(URLNames.SIGN_IN_URL).permitAll()
-                .requestMatchers(URLNames.ADMIN_PANEL_URL).hasRole(EntityFieldName.ADMIN_ROLE_NAME)
+                .requestMatchers(URLNames.ADMIN_PANEL_URL).hasRole("ADMIN")
                 .anyRequest().authenticated()
                 .and()
                 .apply(new JwtConfigurer(jwtTokenProvider));

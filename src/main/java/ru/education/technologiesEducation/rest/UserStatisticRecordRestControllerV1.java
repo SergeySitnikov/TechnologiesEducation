@@ -45,14 +45,14 @@ public class UserStatisticRecordRestControllerV1 {
     public ResponseEntity<List<UserStatisticRecordDto>> getRecords(Authentication authentication) {
         List<UserStatisticRecord> allStatisticRecords = userService.getAllStatisticRecords(userService.getUserByAuthentication(authentication).getId());
         return new ResponseEntity<>(allStatisticRecords.stream()
-                .map(this::recordToRecordDto)
+                .map(UserStatisticRecordDto::new)
                 .collect(Collectors.toList()), HttpStatus.OK);
 
     }
 
     @GetMapping("/{name}")
     public ResponseEntity<UserStatisticRecordDto> getRecord(@PathVariable String name, Authentication authentication) {
-        return new ResponseEntity<>(recordToRecordDto(userService.getStatisticRecord(name, userService.getUserByAuthentication(authentication).getId())), HttpStatus.OK);
+        return new ResponseEntity<>(new UserStatisticRecordDto(userService.getStatisticRecord(name, userService.getUserByAuthentication(authentication).getId())), HttpStatus.OK);
     }
 
     @PostMapping
@@ -63,7 +63,7 @@ public class UserStatisticRecordRestControllerV1 {
 
     @PutMapping("/{name}")
     public ResponseEntity<UserStatisticRecordDto> updateRecord(@PathVariable String name, @RequestBody UserStatisticRecordDto userStatisticRecordDto, Authentication authentication) {
-        return new ResponseEntity<>(recordToRecordDto(recordService.update(name, userStatisticRecordDto, userService.getUserByAuthentication(authentication).getId())), HttpStatus.OK);
+        return new ResponseEntity<>(new UserStatisticRecordDto(recordService.update(name, userStatisticRecordDto, userService.getUserByAuthentication(authentication).getId())), HttpStatus.OK);
     }
 
     @DeleteMapping("/{name}")
@@ -72,11 +72,5 @@ public class UserStatisticRecordRestControllerV1 {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    private UserStatisticRecordDto recordToRecordDto(UserStatisticRecord record) {
-        return new UserStatisticRecordDto(
-                record.getRecordName(),
-                record.getNumber(),
-                record.getDescription(),
-                record.getCreationDate());
-    }
+
 }

@@ -8,11 +8,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ru.education.technologiesEducation.dto.AdminPanelUserDto;
 import ru.education.technologiesEducation.model.Customer;
+import ru.education.technologiesEducation.model.Role;
 import ru.education.technologiesEducation.services.UserService;
 import ru.education.technologiesEducation.staticValues.URLNames;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(URLNames.ADMIN_PANEL_MAPPING_URL)
@@ -32,7 +34,7 @@ public class AdminPanelRestControllerV1 {
         for (Customer user : allUsers) {
             AdminPanelUserDto adminPanelUserDto = new AdminPanelUserDto();
             adminPanelUserDto.setUsername(user.getUsername());
-            adminPanelUserDto.setRoles(user.getRoles());
+            adminPanelUserDto.setRoles(user.getRoles().stream().map(Role::getName).collect(Collectors.toList()));
             adminPanelUserDto.setStatus(user.getStatus());
             adminPanelUserDto.setStatisticRecordCounter((long) userService.getAllStatisticRecords(user.getId()).size());
             result.add(adminPanelUserDto);

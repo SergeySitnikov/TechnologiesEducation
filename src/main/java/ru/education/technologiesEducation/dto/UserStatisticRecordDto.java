@@ -1,5 +1,7 @@
 package ru.education.technologiesEducation.dto;
 
+import ru.education.technologiesEducation.model.UserStatisticRecord;
+
 import java.util.Date;
 
 public class UserStatisticRecordDto {
@@ -21,6 +23,13 @@ public class UserStatisticRecordDto {
         this.name = name;
         this.number = number;
         this.description = description;
+    }
+
+    public UserStatisticRecordDto(UserStatisticRecord record) {
+        this.name = record.getRecordName();
+        this.number = record.getNumber();
+        this.description = record.getDescription();
+        this.creationDate = record.getCreationDate();
     }
 
     public String getName() {
