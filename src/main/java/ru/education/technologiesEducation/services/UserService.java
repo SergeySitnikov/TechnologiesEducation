@@ -17,7 +17,11 @@ public interface UserService {
 
     Customer getUserByAuthentication(Authentication authentication);
 
-    List<UserStatisticRecord> getAllStatisticRecords(Authentication authentication);
+    List<Customer> getAllUsers();
+
+    List<UserStatisticRecord> getAllStatisticRecords(Long customerId);
+
+    UserStatisticRecord getStatisticRecord(String name, Long customerId);
 
     void delete(Long id);
 }

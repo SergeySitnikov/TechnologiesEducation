@@ -47,7 +47,7 @@ public class AuthenticationRestControllerV1 {
     }
 
     @PostMapping("login")
-    public ResponseEntity login(@RequestBody AuthenticationRequestUserDto requestDto) {
+    public ResponseEntity<Map<String, String>> login(@RequestBody AuthenticationRequestUserDto requestDto) {
         try {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(requestDto.getUsername(), requestDto.getPassword()));
             Customer customer = userService.getByUsername(requestDto.getUsername());
@@ -64,7 +64,7 @@ public class AuthenticationRestControllerV1 {
     }
 
     @PostMapping("registration")
-    public ResponseEntity registration(@Validated @RequestBody AuthenticationRequestUserDto requestDto) {
+    public ResponseEntity<String> registration(@Validated @RequestBody AuthenticationRequestUserDto requestDto) {
         userService.save(requestDto);
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(requestDto.getUsername(), requestDto.getPassword()));
         return ResponseEntity.status(HttpStatus.CREATED).body("User created");

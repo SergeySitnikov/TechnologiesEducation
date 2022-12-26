@@ -11,6 +11,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public final class JwtUserFactory {
+
+    private static final String ROLE_PREFIX = "ROLE_";
     public JwtUserFactory() {
     }
 
@@ -26,7 +28,7 @@ public final class JwtUserFactory {
 
     private static List<GrantedAuthority> mapToGrantedAuthorities(List<Role> userRoles) {
         return userRoles.stream()
-                .map(role -> new SimpleGrantedAuthority(role.getName()))
+                .map(role -> new SimpleGrantedAuthority(ROLE_PREFIX + role.getName()))
                 .collect(Collectors.toList());
     }
 }
