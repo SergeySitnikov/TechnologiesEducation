@@ -4,6 +4,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
+import java.util.Objects;
 
 public class JwtUser implements UserDetails {
 
@@ -54,5 +55,18 @@ public class JwtUser implements UserDetails {
     @Override
     public boolean isEnabled() {
         return enabled;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        JwtUser jwtUser = (JwtUser) o;
+        return enabled == jwtUser.enabled && id.equals(jwtUser.id) && username.equals(jwtUser.username) && password.equals(jwtUser.password) && authorities.equals(jwtUser.authorities);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, username, password, enabled, authorities);
     }
 }

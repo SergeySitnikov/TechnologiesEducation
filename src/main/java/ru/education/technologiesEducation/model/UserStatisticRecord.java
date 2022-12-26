@@ -42,6 +42,15 @@ public class UserStatisticRecord {
     public UserStatisticRecord() {
     }
 
+    public UserStatisticRecord(Long id, String recordName, Customer customer, Long number, String description, Date creationDate) {
+        this.id = id;
+        this.recordName = recordName;
+        this.customer = customer;
+        this.number = number;
+        this.description = description;
+        this.creationDate = creationDate;
+    }
+
     public Long getId() {
         return id;
     }

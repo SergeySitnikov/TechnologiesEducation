@@ -12,6 +12,9 @@ public class UserStatisticRecordDto {
 
     private Date creationDate;
 
+    public UserStatisticRecordDto() {
+    }
+
     public UserStatisticRecordDto(String name, Long number, String description, Date creationDate) {
         this.name = name;
         this.number = number;

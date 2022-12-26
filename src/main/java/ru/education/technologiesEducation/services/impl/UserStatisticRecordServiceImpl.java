@@ -5,9 +5,9 @@ import org.springframework.stereotype.Service;
 import ru.education.technologiesEducation.dao.UserStatisticRecordRepository;
 import ru.education.technologiesEducation.dto.UserStatisticRecordDto;
 import ru.education.technologiesEducation.exceptions.StatisticRecordNotFoundException;
+import ru.education.technologiesEducation.exceptions.UserStatisticErrorException;
 import ru.education.technologiesEducation.model.Customer;
 import ru.education.technologiesEducation.model.UserStatisticRecord;
-import ru.education.technologiesEducation.services.UserService;
 import ru.education.technologiesEducation.services.UserStatisticRecordService;
 
 import java.util.Date;
@@ -15,17 +15,18 @@ import java.util.Date;
 @Service
 public class UserStatisticRecordServiceImpl implements UserStatisticRecordService {
 
-    private UserStatisticRecordRepository userStatisticRecordRepository;
-    private UserService userService;
+    private final UserStatisticRecordRepository userStatisticRecordRepository;
 
     @Autowired
-    public UserStatisticRecordServiceImpl(UserStatisticRecordRepository userStatisticRecordRepository, UserService userService) {
+    public UserStatisticRecordServiceImpl(UserStatisticRecordRepository userStatisticRecordRepository) {
         this.userStatisticRecordRepository = userStatisticRecordRepository;
-        this.userService = userService;
     }
 
     @Override
     public void save(UserStatisticRecordDto userStatisticRecordDto, Customer customer) {
+        if (userStatisticRecordRepository.findByRecordNameAndCustomerId(userStatisticRecordDto.getName(), customer.getId()) != null) {
+            throw new UserStatisticErrorException("Duplicate record name");
+        }
         UserStatisticRecord record = new UserStatisticRecord();
         record.setRecordName(userStatisticRecordDto.getName());
         record.setDescription(userStatisticRecordDto.getDescription());
@@ -46,7 +47,7 @@ public class UserStatisticRecordServiceImpl implements UserStatisticRecordServic
             record.setRecordName(name);
         }
         String description = userStatisticRecordDto.getDescription();
-        if (description != null && !description.equals(originalName)) {
+        if (description != null && !description.equals(record.getDescription())) {
             record.setDescription(description);
         }
         Long number = userStatisticRecordDto.getNumber();
